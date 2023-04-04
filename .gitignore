@@ -1,0 +1,5 @@
+/build/
+/Makefile
+/CMakeFiles/
+*.cmake
+xd.cpp

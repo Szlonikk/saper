@@ -1,8 +1,16 @@
 #include <iostream>
-#include <SFML/Graphics.hpp>
-#include "windows.hpp"
+#include "Game.hpp"
 
 
-int main{
-    DisplayMainWindow()
+int main(){
+    Game game;
+
+    while(game.running()){
+
+        game.update();
+        game.render();
+
+
+
+    }
 }
