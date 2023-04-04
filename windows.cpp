@@ -1,11 +1,14 @@
 #include "windows.hpp"
 #include <SFML/Graphics.hpp>
 
-void DisplayMainWindow{
+enum GameState { OPTIONS, GAMEPLAY, GAMEOVER };
+GameState state = OPTIONS;
+
+
+void DisplayMainWindow(){
     sf::RenderWindow window(sf::VideoMode(width, height), "Saper",sf::Style::TitleBar | sf::Style::Close);
     sf::Event evListener;
-    while(window.isOpen()){
-        
+    while(window.isOpen()){ 
         while(window.pollEvent(evListener)){
             switch(evListener.type){
                 case sf::Event::Closed:
@@ -20,5 +23,7 @@ void DisplayMainWindow{
         }
     }
     
+    window.clear(sf::Color::Grey);
+    window.display();
 
 }

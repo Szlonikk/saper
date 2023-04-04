@@ -2,7 +2,6 @@
 #include <iostream>
 #include <vector>
 #include <cstdlib>
-#include <ctime>
 
 const int width = 400;
 const int height = 400;
@@ -72,7 +71,7 @@ void initBoard() {
     for (int i = 0; i < nCols; i++) {
         for (int j = 0; j < nRows; j++) {
         // Kształt pola
-        sf::RectangleShape shape(sf::Vector2f(gridSize, gridSize));
+        sf::RectangleShape shape(sf::Vector2f(rows, columns));
         shape.setPosition(i * gridSize, j * gridSize);
         shape.setOutlineThickness(1.f);
         shape.setOutlineColor(sf::Color::Black);
