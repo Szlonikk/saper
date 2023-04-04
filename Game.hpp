@@ -26,7 +26,7 @@ class Field {
 
 class Game{
 private:
-    GameState gameState = GameState::Options;
+    GameState gameState = GameState::Gameplay;
     sf::RenderWindow* window;
     sf::VideoMode vidMode;
     sf::Event ev;

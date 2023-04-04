@@ -3,8 +3,13 @@
 void Game::initVariables(){
     this->window=nullptr;
     this->gridSize=20;
-    this->height=800;
-    this->width=800;
+    this->height=400;
+    this->width=400;
+
+    this->vidMode.width=width;
+    this->vidMode.height=height;
+    this->window=new sf::RenderWindow(this->vidMode, "Saper",sf::Style::Titlebar | sf::Style::Close);
+    
     this->columns = vidMode.width / gridSize;
     this->rows = vidMode.height / gridSize;
     this->bombRatio=0.1;
@@ -13,15 +18,15 @@ void Game::initVariables(){
     
     
 }
-void Game::initWindow(){
-    this->vidMode.width=width;
-    this->vidMode.height=height;
-    this->window=new sf::RenderWindow(this->vidMode, "Saper",sf::Style::Titlebar | sf::Style::Close);
+// void Game::initWindow(){
+//     this->vidMode.width=width;
+//     this->vidMode.height=height;
+//     this->window=new sf::RenderWindow(this->vidMode, "Saper",sf::Style::Titlebar | sf::Style::Close);
     
-}
+// }
 Game::Game(){
     this->initVariables();
-    this->initWindow();
+    //this->initWindow();
 }
 
 Game::~Game(){
@@ -55,11 +60,13 @@ void Game::render(){
     this->window->clear();
 
     if(this->gameState==GameState::Gameplay){
-        for (int i = 0; i < columns; i++) {
+        printf("%d",columns);
             for (int j = 0; j < rows; j++) {
-                window->draw((*board)[i][j].shape);
-            }
-        }
+                  for (int i = 0; i < columns; i++) {
+                      window->draw((*boar)[i][j].shape);
+                
+                }
+            }       
     }
     if(this->gameState==GameState::Options){
         //TODO Kod wyświetlania opcji
