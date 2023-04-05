@@ -1,3 +1,0 @@
-/home/jakub/Desktop/mini projekt/build/CMakeFiles/saper.dir
-/home/jakub/Desktop/mini projekt/build/CMakeFiles/edit_cache.dir
-/home/jakub/Desktop/mini projekt/build/CMakeFiles/rebuild_cache.dir
