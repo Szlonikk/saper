@@ -10,8 +10,8 @@ void Game::initVariables(){
     this->vidMode.height=height;
     this->window=new sf::RenderWindow(this->vidMode, "Saper",sf::Style::Titlebar | sf::Style::Close);
     
-    this->columns = vidMode.width / gridSize;
-    this->rows = vidMode.height / gridSize;
+    this->columns = (vidMode.width) / gridSize;
+    this->rows = (vidMode.height) / gridSize;
     this->bombRatio=0.1;
     int numberOfBombs = static_cast<int>(columns * rows * bombRatio);
     this->board = new std::vector<std::vector<Field>>(columns, std::vector<Field>(rows));
@@ -47,8 +47,26 @@ void Game::pollEvents(){
                 case sf::Event::KeyPressed:
                     if(this->ev.key.code == sf::Keyboard::Escape){
                         this->window->close();
-                    }    
+                    }else{
+                        if (ev.mouseButton.button == sf::Mouse::Left) {
+                            int x = ev.mouseButton.x / gridSize;
+                            int y = ev.mouseButton.y / gridSize;
+                            revealField(x, y);
+                        }else if (ev.mouseButton.button == sf::Mouse::Right) {
+                            int x = ev.mouseButton.x / gridSize;
+                            int y = ev.mouseButton.y / gridSize;
+                            if ((*board)[x][y].fieldState == FieldState::Hidden) {
+                                (*board)[x][y].fieldState = FieldState::Flagged;
+                                (*board)[x][y].shape.setFillColor(sf::Color::Blue);
+                            }
+                            else if ((*board)[x][y].fieldState == FieldState::Flagged) {
+                                (*board)[x][y].fieldState = FieldState::Hidden;
+                                (*board)[x][y].shape.setFillColor(sf::Color::White);
+                             }
+                        }
+                    }
                     break;
+                
                 }
     }
 }    
@@ -60,10 +78,10 @@ void Game::render(){
     this->window->clear();
 
     if(this->gameState==GameState::Gameplay){
-        printf("%d",columns);
+        
             for (int j = 0; j < rows; j++) {
                   for (int i = 0; i < columns; i++) {
-                      window->draw((*boar)[i][j].shape);
+                      window->draw((*board)[i][j].shape);
                 
                 }
             }       
@@ -73,6 +91,14 @@ void Game::render(){
     }
     if(this->gameState==GameState::GameOver){
         //TODO kod do wyświetlania game over
+        
+            for (int j = 0; j < rows; j++) {
+                  for (int i = 0; i < columns; i++) {
+                      window->draw((*board)[i][j].shape);
+                
+                }
+            }       
+
     }
 
     window->display();
@@ -96,6 +122,36 @@ void Game::countNeighBombs(){
                 (*(this->board))[i][j].nNeighbours=count;
             }
             count=0;
+        }
+    }
+}
+void Game::revealField(int x, int y) {
+    // Jeśli pole jest ukryte
+    if ((*board)[x][y].fieldState == FieldState::Hidden) {
+        if ((*board)[x][y].hasBomb) {
+             //std::cout << "Przegrałeś!\n";
+             for (int i = 0; i < columns; i++) {
+                    for (int j = 0; j < rows; j++) {
+                        if ((*board)[i][j].hasBomb) {
+                            (*board)[i][j].shape.setFillColor(sf::Color::Red);
+                            (*board)[i][j].fieldState = FieldState::Revealed;
+                    }
+                    }
+            }
+        }else {
+            // Jeśli pole nie ma bomby, odkrywamy je i przyległe pola bez bomb
+            (*board)[x][y].fieldState = FieldState::Revealed;
+            (*board)[x][y].shape.setFillColor(sf::Color::Yellow);
+            if ((*board)[x][y].nNeighbours == 0) {
+                if (x > 0 && y > 0) revealField(x - 1, y - 1);
+                if (y > 0) revealField(x, y - 1);
+                if (x < columns - 1 && y > 0) revealField(x + 1, y - 1);
+                if (x > 0) revealField(x - 1, y);
+                if (x < columns - 1) revealField(x + 1, y);
+                if (x > 0 && y < rows - 1) revealField(x - 1, y + 1);
+                if (y < rows - 1) revealField(x, y + 1);
+                if (x < columns - 1 && y < rows - 1) revealField(x + 1, y + 1);
+            }
         }
     }
 }

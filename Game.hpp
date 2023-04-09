@@ -41,6 +41,7 @@ private:
     int numberOfBombs;
     float bombRatio;
     std::vector<std::vector<Field>>* board;
+    void revealField(int x,int y);
     //std::vector<std::vector<Field>> board(columns, std::vector<Field>(rows));
 public:
     Game();
