@@ -2,7 +2,6 @@
 # Saper
 ## Description:
 This is my implementaion of saper, using c++ and SFML library
-Program after start will display window with options, where user can set his own setting, number of rows (nxn) and number of bombs
 
 easy (10 % bombs)
 
